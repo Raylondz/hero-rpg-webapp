@@ -1,47 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hero RPG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
       body {
         margin: 0;
         font-family: 'Segoe UI', sans-serif;
-        background: #1e1e1e;
-        color: white;
+        background: #121212;
+        color: #fff;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-      }
-      button {
-        padding: 10px 20px;
-        font-size: 18px;
-        background: #4CAF50;
-        border: none;
-        border-radius: 10px;
-        color: white;
-        cursor: pointer;
-        margin-top: 20px;
+        padding: 20px;
       }
       h1 {
-        font-size: 26px;
+        font-size: 24px;
         text-align: center;
+      }
+      .task-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+      }
+      input, select, button {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: none;
+      }
+      button {
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+      }
+      .task-list {
+        margin-top: 30px;
+      }
+      .task {
+        background: #1e1e1e;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
       }
     </style>
   </head>
   <body>
-    <h1>Добро пожаловать в Hero RPG</h1>
-    <p>Нажми на кнопку, чтобы добавить задачу</p>
-    <button onclick="addTask()">➕ Добавить задачу</button>
+    <h1>🎯 Hero RPG Задачи</h1>
+
+    <div class="task-form">
+      <input type="text" id="taskTitle" placeholder="Название задачи">
+      <select id="taskDifficulty">
+        <option value="1">Сложность 1</option>
+        <option value="2">Сложность 2</option>
+        <option value="3">Сложность 3</option>
+        <option value="4">Сложность 4</option>
+        <option value="5">Сложность 5</option>
+      </select>
+      <select id="taskDate">
+        <option value="today">Сегодня</option>
+        <option value="tomorrow">Завтра</option>
+      </select>
+      <button onclick="addTask()">Добавить задачу</button>
+    </div>
+
+    <div class="task-list" id="taskList">
+      <h2>📋 Список задач</h2>
+    </div>
+
     <script>
       Telegram.WebApp.ready();
+
+      const taskList = document.getElementById("taskList");
+      const tasks = [];
+
       function addTask() {
-        Telegram.WebApp.showAlert("Задача добавлена! (ещё без логики 😄)");
+        const title = document.getElementById("taskTitle").value;
+        const difficulty = document.getElementById("taskDifficulty").value;
+        const date = document.getElementById("taskDate").value;
+
+        if (!title) {
+          Telegram.WebApp.showAlert("Введите название задачи!");
+          return;
+        }
+
+        const task = {
+          title,
+          difficulty,
+          date,
+          exp: difficulty * 10
+        };
+        tasks.push(task);
+        renderTasks();
+      }
+
+      function renderTasks() {
+        taskList.innerHTML = "<h2>📋 Список задач</h2>";
+        tasks.forEach((task, index) => {
+          const el = document.createElement("div");
+          el.className = "task";
+          el.innerHTML = `
+            <b>${task.title}</b><br>
+            📅 ${task.date} | ⚔️ Сложность: ${task.difficulty} | ⭐ EXP: ${task.exp}
+          `;
+          taskList.appendChild(el);
+        });
       }
     </script>
   </body>
