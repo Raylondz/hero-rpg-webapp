@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hero RPG</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: #1e1e1e;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 18px;
+        background: #4CAF50;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+      h1 {
+        font-size: 26px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Добро пожаловать в Hero RPG</h1>
+    <p>Нажми на кнопку, чтобы добавить задачу</p>
+    <button onclick="addTask()">➕ Добавить задачу</button>
+    <script>
+      Telegram.WebApp.ready();
+      function addTask() {
+        Telegram.WebApp.showAlert("Задача добавлена! (ещё без логики 😄)");
+      }
+    </script>
+  </body>
+</html>
